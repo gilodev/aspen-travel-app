@@ -1,70 +1,126 @@
-import { Image, StyleSheet, Platform } from 'react-native';
+import React from "react";
+import {
+  StyleSheet,
+  Text,
+  View,
+  TouchableOpacity,
+  SafeAreaView,
+} from "react-native";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 
-import { HelloWave } from '@/components/HelloWave';
-import ParallaxScrollView from '@/components/ParallaxScrollView';
-import { ThemedText } from '@/components/ThemedText';
-import { ThemedView } from '@/components/ThemedView';
-
-export default function HomeScreen() {
+const HotelReservationFeatures = () => {
   return (
-    <ParallaxScrollView
-      headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
-      headerImage={
-        <Image
-          source={require('@/assets/images/partial-react-logo.png')}
-          style={styles.reactLogo}
-        />
-      }>
-      <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Welcome!</ThemedText>
-        <HelloWave />
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 1: Try it</ThemedText>
-        <ThemedText>
-          Edit <ThemedText type="defaultSemiBold">app/(tabs)/index.tsx</ThemedText> to see changes.
-          Press{' '}
-          <ThemedText type="defaultSemiBold">
-            {Platform.select({ ios: 'cmd + d', android: 'cmd + m' })}
-          </ThemedText>{' '}
-          to open developer tools.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 2: Explore</ThemedText>
-        <ThemedText>
-          Tap the Explore tab to learn more about what's included in this starter app.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 3: Get a fresh start</ThemedText>
-        <ThemedText>
-          When you're ready, run{' '}
-          <ThemedText type="defaultSemiBold">npm run reset-project</ThemedText> to get a fresh{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> directory. This will move the current{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> to{' '}
-          <ThemedText type="defaultSemiBold">app-example</ThemedText>.
-        </ThemedText>
-      </ThemedView>
-    </ParallaxScrollView>
+    <SafeAreaView style={styles.container}>
+      <View style={styles.container}>
+        <Text style={styles.sectionTitle}>how does it works?</Text>
+        <View style={styles.row}>
+          <TouchableOpacity style={[styles.card, styles.card1]}>
+            <MaterialCommunityIcons
+              name="map-marker-outline"
+              size={40}
+              color="black"
+            />
+            <Text style={styles.cardTitle}>Find the Perfect Stay</Text>
+            <Text style={styles.cardText}>
+              Browse hotels in your favorite destinations with just a few
+              clicks.
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={[styles.card, styles.card2]}>
+            <MaterialCommunityIcons
+              name="calendar-check-outline"
+              size={40}
+              color="black"
+            />
+            <Text style={styles.cardTitle}>Easy Booking</Text>
+            <Text style={styles.cardText}>
+              Reserve your room instantly with our seamless booking process.
+            </Text>
+          </TouchableOpacity>
+        </View>
+
+        <View style={styles.row}>
+          <TouchableOpacity style={[styles.card, styles.card3]}>
+            <MaterialCommunityIcons
+              name="cash-multiple"
+              size={40}
+              color="black"
+            />
+            <Text style={styles.cardTitle}>Best Price Guarantee</Text>
+            <Text style={styles.cardText}>
+              Get the best rates and exclusive deals available only on our app.
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={[styles.card, styles.card4]}>
+            <MaterialCommunityIcons
+              name="star-outline"
+              size={40}
+              color="black"
+            />
+            <Text style={styles.cardTitle}>Top-Rated Service</Text>
+            <Text style={styles.cardText}>
+              Enjoy excellent service at top-rated hotels curated just for you.
+            </Text>
+          </TouchableOpacity>
+        </View>
+      </View>
+    </SafeAreaView>
   );
-}
+};
 
 const styles = StyleSheet.create({
-  titleContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 8,
+  container: {
+    flex: 1,
+    padding: 20,
   },
-  stepContainer: {
-    gap: 8,
-    marginBottom: 8,
+  row: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginBottom: 10,
   },
-  reactLogo: {
-    height: 178,
-    width: 290,
-    bottom: 0,
-    left: 0,
-    position: 'absolute',
+  card: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    padding: 20,
+    margin: 5,
+    borderRadius: 10,
+    shadowOpacity: 0.1,
+    shadowRadius: 5,
+    shadowColor: "#000",
+    shadowOffset: { height: 0, width: 0 },
+    elevation: 3,
+  },
+  card1: {
+    backgroundColor: "#ff9a8d",
+  },
+  card2: {
+    backgroundColor: "#3478F6",
+  },
+  card3: {
+    backgroundColor: "#a4e786",
+  },
+  card4: {
+    backgroundColor: "#d98bff",
+  },
+  cardTitle: {
+    color: "white",
+    fontSize: 18,
+    fontWeight: "bold",
+    textAlign: "center",
+    marginTop: 10,
+  },
+  cardText: {
+    color: "white",
+    textAlign: "center",
+    marginTop: 5,
+  },
+  sectionTitle: {
+    fontSize: 20,
+    fontWeight: "bold",
+    marginTop: 20,
+    marginBottom: 30,
   },
 });
+
+export default HotelReservationFeatures;

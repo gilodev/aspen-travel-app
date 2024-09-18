@@ -1,102 +1,181 @@
-import Ionicons from '@expo/vector-icons/Ionicons';
-import { StyleSheet, Image, Platform } from 'react-native';
+import React from "react";
+import {
+  View,
+  Text,
+  StyleSheet,
+  ScrollView,
+  TouchableOpacity,
+  SafeAreaView,
+  StatusBar,
+} from "react-native";
+import { Ionicons } from "@expo/vector-icons";
+import SearchBar from "@/components/SearchBar";
+import PopularCard from "@/components/PopularCard";
+import Card from "@/components/Card";
+import {
+  popularDestinations,
+  recommendDestinations,
+} from "@/data/destinations";
+import { Colors } from "@/constants/Colors";
 
-import { Collapsible } from '@/components/Collapsible';
-import { ExternalLink } from '@/components/ExternalLink';
-import ParallaxScrollView from '@/components/ParallaxScrollView';
-import { ThemedText } from '@/components/ThemedText';
-import { ThemedView } from '@/components/ThemedView';
-
-export default function TabTwoScreen() {
+const ExploreScreen = () => {
   return (
-    <ParallaxScrollView
-      headerBackgroundColor={{ light: '#D0D0D0', dark: '#353636' }}
-      headerImage={<Ionicons size={310} name="code-slash" style={styles.headerImage} />}>
-      <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Explore</ThemedText>
-      </ThemedView>
-      <ThemedText>This app includes example code to help you get started.</ThemedText>
-      <Collapsible title="File-based routing">
-        <ThemedText>
-          This app has two screens:{' '}
-          <ThemedText type="defaultSemiBold">app/(tabs)/index.tsx</ThemedText> and{' '}
-          <ThemedText type="defaultSemiBold">app/(tabs)/explore.tsx</ThemedText>
-        </ThemedText>
-        <ThemedText>
-          The layout file in <ThemedText type="defaultSemiBold">app/(tabs)/_layout.tsx</ThemedText>{' '}
-          sets up the tab navigator.
-        </ThemedText>
-        <ExternalLink href="https://docs.expo.dev/router/introduction">
-          <ThemedText type="link">Learn more</ThemedText>
-        </ExternalLink>
-      </Collapsible>
-      <Collapsible title="Android, iOS, and web support">
-        <ThemedText>
-          You can open this project on Android, iOS, and the web. To open the web version, press{' '}
-          <ThemedText type="defaultSemiBold">w</ThemedText> in the terminal running this project.
-        </ThemedText>
-      </Collapsible>
-      <Collapsible title="Images">
-        <ThemedText>
-          For static images, you can use the <ThemedText type="defaultSemiBold">@2x</ThemedText> and{' '}
-          <ThemedText type="defaultSemiBold">@3x</ThemedText> suffixes to provide files for
-          different screen densities
-        </ThemedText>
-        <Image source={require('@/assets/images/react-logo.png')} style={{ alignSelf: 'center' }} />
-        <ExternalLink href="https://reactnative.dev/docs/images">
-          <ThemedText type="link">Learn more</ThemedText>
-        </ExternalLink>
-      </Collapsible>
-      <Collapsible title="Custom fonts">
-        <ThemedText>
-          Open <ThemedText type="defaultSemiBold">app/_layout.tsx</ThemedText> to see how to load{' '}
-          <ThemedText style={{ fontFamily: 'SpaceMono' }}>
-            custom fonts such as this one.
-          </ThemedText>
-        </ThemedText>
-        <ExternalLink href="https://docs.expo.dev/versions/latest/sdk/font">
-          <ThemedText type="link">Learn more</ThemedText>
-        </ExternalLink>
-      </Collapsible>
-      <Collapsible title="Light and dark mode components">
-        <ThemedText>
-          This template has light and dark mode support. The{' '}
-          <ThemedText type="defaultSemiBold">useColorScheme()</ThemedText> hook lets you inspect
-          what the user's current color scheme is, and so you can adjust UI colors accordingly.
-        </ThemedText>
-        <ExternalLink href="https://docs.expo.dev/develop/user-interface/color-themes/">
-          <ThemedText type="link">Learn more</ThemedText>
-        </ExternalLink>
-      </Collapsible>
-      <Collapsible title="Animations">
-        <ThemedText>
-          This template includes an example of an animated component. The{' '}
-          <ThemedText type="defaultSemiBold">components/HelloWave.tsx</ThemedText> component uses
-          the powerful <ThemedText type="defaultSemiBold">react-native-reanimated</ThemedText> library
-          to create a waving hand animation.
-        </ThemedText>
-        {Platform.select({
-          ios: (
-            <ThemedText>
-              The <ThemedText type="defaultSemiBold">components/ParallaxScrollView.tsx</ThemedText>{' '}
-              component provides a parallax effect for the header image.
-            </ThemedText>
-          ),
-        })}
-      </Collapsible>
-    </ParallaxScrollView>
+    <SafeAreaView style={styles.container}>
+      <StatusBar barStyle="dark-content" />
+      <ScrollView showsVerticalScrollIndicator={false} style={styles.container}>
+        <View style={styles.header}>
+          <Text style={styles.headerTitle}>Explore</Text>
+          <TouchableOpacity style={styles.locationButton}>
+            <Ionicons name="location" size={16} color={Colors.light.primary} />
+            <Text style={styles.locationText}>Aspen, USA</Text>
+            <Ionicons
+              name="arrow-down"
+              size={16}
+              color={Colors.light.primary}
+            />
+          </TouchableOpacity>
+        </View>
+        <Text style={styles.title}>Aspen</Text>
+        <SearchBar placeholder="Find things to do" />
+        <ScrollView
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          style={styles.categoryScroll}
+          contentContainerStyle={styles.categoryScrollContent}
+        >
+          {["Location", "Hotels", "Food", "Adventure", "Art"].map(
+            (category, index) => (
+              <TouchableOpacity
+                key={index}
+                style={[
+                  styles.categoryButton,
+                  index === 0 && styles.activeCategoryButton,
+                ]}
+              >
+                <Text
+                  style={[
+                    styles.categoryText,
+                    index === 0 && styles.activeCategoryText,
+                  ]}
+                >
+                  {category}
+                </Text>
+              </TouchableOpacity>
+            )
+          )}
+        </ScrollView>
+        <View style={styles.sectionHeading}>
+          <Text style={styles.sectionTitle}>Popular</Text>
+          <TouchableOpacity>
+            <Text style={styles.textButton}>See all</Text>
+          </TouchableOpacity>
+        </View>
+        <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+          {popularDestinations.map((item, index) => (
+            <PopularCard
+              key={index}
+              name={item.name}
+              image={item.image}
+              rating={item.rating}
+              price={item.price}
+            />
+          ))}
+        </ScrollView>
+        <View style={styles.sectionHeading}>
+          <Text style={styles.sectionTitle}>Recommended</Text>
+        </View>
+        <View style={styles.recommendedContainer}>
+          {recommendDestinations.map((item, index) => (
+            <Card
+              key={index}
+              name={item.name}
+              image={item.image}
+              libelle={item.libelle}
+              rating={item.rating}
+              price={item.price}
+            />
+          ))}
+        </View>
+      </ScrollView>
+    </SafeAreaView>
   );
-}
+};
 
 const styles = StyleSheet.create({
-  headerImage: {
-    color: '#808080',
-    bottom: -90,
-    left: -35,
-    position: 'absolute',
+  container: {
+    flex: 1,
+    backgroundColor: "#fff",
+    paddingHorizontal: 20,
+    paddingTop: 20,
   },
-  titleContainer: {
-    flexDirection: 'row',
-    gap: 8,
+  header: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    paddingTop: 20,
+  },
+  headerTitle: {
+    fontSize: 16,
+    fontWeight: "400",
+  },
+  locationButton: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  locationText: {
+    marginHorizontal: 5,
+    color: Colors.light.primary,
+    fontWeight: "600",
+  },
+  title: {
+    fontSize: 32,
+    fontWeight: "400",
+    marginBottom: 20,
+  },
+  sectionHeading: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    marginBottom: 15,
+    marginTop: 25,
+  },
+  textButton: {
+    color: Colors.light.primary,
+    fontWeight: "600",
+  },
+  categoryScroll: {
+    flexGrow: 0,
+  },
+  categoryScrollContent: {
+    marginVertical: 10,
+  },
+  categoryButton: {
+    paddingHorizontal: 20,
+    paddingVertical: 10,
+    marginRight: 10,
+    borderRadius: 20,
+  },
+  activeCategoryButton: {
+    backgroundColor: "#F3F8FE",
+  },
+  categoryText: {
+    fontSize: 16,
+    color: "#B8B8B8",
+    fontWeight: "500",
+  },
+  activeCategoryText: {
+    color: Colors.light.primary,
+  },
+  sectionTitle: {
+    fontSize: 18,
+    fontWeight: "500",
+  },
+  recommendedContainer: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    justifyContent: "space-between",
+    paddingBottom: 20,
   },
 });
+
+export default ExploreScreen;
